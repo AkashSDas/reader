@@ -70,9 +70,11 @@ function Navbar() {
           <Button variant="text" sx={textBtnStyle}>
             Explore
           </Button>
-          <Button variant="contained" disableElevation sx={containedBtnStyle}>
-            Get started
-          </Button>
+          <Link href="/get-started">
+            <Button variant="contained" disableElevation sx={containedBtnStyle}>
+              Get started
+            </Button>
+          </Link>
         </Stack>
       </AppBar>
     </Box>
