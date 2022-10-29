@@ -1,6 +1,6 @@
 import { getApps, initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { collection, DocumentSnapshot, getDocs, getFirestore, limit, query, where } from "firebase/firestore";
+import { collection, DocumentSnapshot, getDocs, getFirestore, limit, query, Timestamp, where } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 var firebaseConfig = {
@@ -24,7 +24,9 @@ if (getApps().length == 0) {
 export var auth = getAuth(firebaseApp);
 export var googleAuthProvider = new GoogleAuthProvider();
 
+// Firestore
 export var firestore = getFirestore(firebaseApp);
+
 export var storage = getStorage(firebaseApp);
 
 // ============================
