@@ -5,10 +5,13 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
 import Head from "next/head";
+import { SnackbarProvider } from "notistack";
 
 import Layout from "@components/layout";
 import Navbar from "@components/navbar";
 import { ThemeProvider } from "@emotion/react";
+import { UserContext } from "@lib/context";
+import { useUserData } from "@lib/hooks";
 import { createTheme, CssBaseline, Palette, PaletteColor, TypeBackground, TypeText } from "@mui/material";
 
 function MyApp({ Component, pageProps }) {
@@ -26,22 +29,28 @@ function MyApp({ Component, pageProps }) {
     },
   });
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Head>
-        <title>📒 Reader</title>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-        />
-      </Head>
+  var { user, username } = useUserData();
 
-      <CssBaseline />
-      <Layout>
-        <Navbar />
-        <Component {...pageProps} />
-      </Layout>
-    </ThemeProvider>
+  return (
+    <UserContext.Provider value={{ user, username }}>
+      <ThemeProvider theme={theme}>
+        <Head>
+          <title>📒 Reader</title>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width"
+          />
+        </Head>
+
+        <CssBaseline />
+        <SnackbarProvider maxSnack={3}>
+          <Layout>
+            <Navbar />
+            <Component {...pageProps} />
+          </Layout>
+        </SnackbarProvider>
+      </ThemeProvider>
+    </UserContext.Provider>
   );
 }
 

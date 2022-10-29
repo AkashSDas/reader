@@ -1,5 +1,5 @@
-import { initializeApp, getApps } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getApps, initializeApp } from "firebase/app";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
@@ -19,6 +19,10 @@ if (getApps().length == 0) {
 }
 
 // SDKs for Firebase products that are to be used
+
+// Auth
 export var auth = getAuth(firebaseApp);
+export var googleAuthProvider = new GoogleAuthProvider();
+
 export var firestore = getFirestore(firebaseApp);
 export var storage = getStorage(firebaseApp);

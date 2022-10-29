@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { useContext } from "react";
 
+import { UserContext } from "@lib/context";
 import { containedBtnStyle, textBtnStyle } from "@lib/material-ui";
 import { AppBar, Avatar, Box, Button, useTheme } from "@mui/material";
 import { Stack } from "@mui/system";
@@ -40,11 +42,9 @@ function Logo() {
 }
 
 function Navbar() {
-  var user = null;
-  var username = {};
+  var { user, username } = useContext(UserContext);
   var theme = useTheme();
 
-  console.log(theme);
   return (
     <Box sx={{ height: "60px", width: "100%" }}>
       <AppBar
@@ -81,11 +81,7 @@ function Navbar() {
               </Button>
             </Link>
             <Link href={`/${username}`}>
-              <Avatar
-                src={user?.photoURL}
-                alt="Profile photo"
-                sx={{ cursor: "pointer" }}
-              />
+              <Avatar src={user?.photoURL} sx={{ cursor: "pointer" }} />
             </Link>
           </Stack>
         )}
