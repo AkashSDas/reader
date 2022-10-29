@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { containedBtnStyle, textBtnStyle } from "@lib/material-ui";
-import { AppBar, Box, Button, useTheme } from "@mui/material";
+import { AppBar, Avatar, Box, Button, useTheme } from "@mui/material";
 import { Stack } from "@mui/system";
 
 function Logo() {
@@ -40,6 +40,8 @@ function Logo() {
 }
 
 function Navbar() {
+  var user = null;
+  var username = {};
   var theme = useTheme();
 
   console.log(theme);
@@ -66,16 +68,45 @@ function Navbar() {
           </Box>
         </Link>
 
-        <Stack direction="row" spacing={2}>
-          <Button variant="text" sx={textBtnStyle}>
-            Explore
-          </Button>
-          <Link href="/get-started">
-            <Button variant="contained" disableElevation sx={containedBtnStyle}>
-              Get started
+        {/* user is signed in and has username */}
+        {username && (
+          <Stack direction="row" spacing={2}>
+            <Link href="/admin">
+              <Button
+                variant="contained"
+                disableElevation
+                sx={containedBtnStyle}
+              >
+                Write Post
+              </Button>
+            </Link>
+            <Link href={`/${username}`}>
+              <Avatar
+                src={user?.photoURL}
+                alt="Profile photo"
+                sx={{ cursor: "pointer" }}
+              />
+            </Link>
+          </Stack>
+        )}
+
+        {/* user is not signed OR has not created username */}
+        {!username && (
+          <Stack direction="row" spacing={2}>
+            <Button variant="text" sx={textBtnStyle}>
+              Explore
             </Button>
-          </Link>
-        </Stack>
+            <Link href="/get-started">
+              <Button
+                variant="contained"
+                disableElevation
+                sx={containedBtnStyle}
+              >
+                Get started
+              </Button>
+            </Link>
+          </Stack>
+        )}
       </AppBar>
     </Box>
   );
