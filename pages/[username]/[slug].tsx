@@ -1,5 +1,7 @@
 import { collectionGroup, doc, getDoc, getDocs, query } from "firebase/firestore";
+import { useDocumentData } from "react-firebase-hooks/firestore";
 
+import PostContent from "@components/post-content";
 import { firestore, getUserWithUsername, postToJSON } from "@lib/firebase";
 import { Box } from "@mui/material";
 
@@ -34,10 +36,20 @@ export async function getStaticPaths() {
   return { paths, fallback: "blocking" };
 }
 
-function PostPage() {
+function PostPage(props) {
+  var postRef = doc(firestore, props.path);
+  var [realtimePost] = useDocumentData(postRef);
+  var post = realtimePost || props.post; // fallback to props.post
+
   return (
     <Box>
-      <h1>Post</h1>
+      <section>
+        <PostContent post={post} />
+      </section>
+
+      <aside>
+        <p>💘 {post.heartCount}</p>
+      </aside>
     </Box>
   );
 }
