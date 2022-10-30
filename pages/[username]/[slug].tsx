@@ -1,6 +1,7 @@
 import { collectionGroup, doc, getDoc, getDocs, query } from "firebase/firestore";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 
+import MetaTags from "@components/metatags";
 import PostContent from "@components/post-content";
 import { firestore, getUserWithUsername, postToJSON } from "@lib/firebase";
 import { Box } from "@mui/material";
@@ -43,6 +44,8 @@ function PostPage(props) {
 
   return (
     <Box>
+      <MetaTags title={post?.title} description={null} image={null} />
+
       <section>
         <PostContent post={post} />
       </section>
