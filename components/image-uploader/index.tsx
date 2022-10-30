@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import Loader from "@components/loader";
 import { auth, storage } from "@lib/firebase";
+import { Box, Button } from "@mui/material";
 
 function ImageUploader() {
   var [uploading, setUploading] = useState(false);
@@ -48,25 +49,41 @@ function ImageUploader() {
   }
 
   return (
-    <div>
+    <Box component="div">
+      {downloadURL && (
+        <Box
+          component="code"
+          sx={{ fontSize: "0.8rem" }}
+        >{`![alt](${downloadURL})`}</Box>
+      )}
+
       {uploading && <Loader />}
       {uploading && <h3>{progress}%</h3>}
 
       {!uploading && (
-        <>
-          <label>
-            Upload image
-            <input
-              type="file"
-              onChange={uploadImage}
-              accept="image/x-png, image/gif, image/jpeg"
-            />
-          </label>
-        </>
+        <Button
+          sx={{
+            textTransform: "unset",
+            padding: "0 1rem",
+            height: "32px",
+            borderRadius: "100px",
+            fontWeight: "400",
+            width: "fit-content",
+          }}
+          startIcon={<Box>📸</Box>}
+          variant="text"
+          component="label"
+        >
+          Upload image
+          <input
+            type="file"
+            onChange={uploadImage}
+            accept="image/x-png, image/gif, image/jpeg"
+            hidden
+          />
+        </Button>
       )}
-
-      {downloadURL && <code>{`![alt](${downloadURL})`}</code>}
-    </div>
+    </Box>
   );
 }
 

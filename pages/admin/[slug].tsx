@@ -10,7 +10,9 @@ import ReactMarkdown from "react-markdown";
 import AuthCheck from "@components/auth-check";
 import ImageUploader from "@components/image-uploader";
 import { auth, firestore } from "@lib/firebase";
-import { Box } from "@mui/material";
+import { containedBtnStyle, textBtnStyle } from "@lib/material-ui";
+import { CheckBox } from "@mui/icons-material";
+import { Box, Button, IconButton, Stack, TextareaAutosize } from "@mui/material";
 
 function AdminPostEditPage() {
   return (
@@ -37,35 +39,76 @@ function PostManager() {
   var [post] = useDocumentDataOnce(postRef); // No need to listen to changes
 
   return (
-    <Box>
-      <h1>Post</h1>
-      {post && (
-        <>
-          <section>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        px: 2,
+        mt: 2,
+      }}
+    >
+      <Stack
+        spacing={2}
+        direction="column"
+        alignItems="center"
+        sx={{ maxWidth: "700px", width: "100%" }}
+      >
+        {post && (
+          <Box sx={{ width: "100%" }}>
             <h1>{post.title}</h1>
             <p>{post.slug}</p>
+
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Button
+                sx={{
+                  textTransform: "unset",
+                  padding: "0 1rem",
+                  height: "32px",
+                  borderRadius: "100px",
+                  fontWeight: "400",
+                  width: "fit-content",
+                }}
+                startIcon={<Box>🎹</Box>}
+                variant="text"
+                onClick={() => setPreview(!preview)}
+              >
+                {preview ? "Edit" : "Preview"}
+              </Button>
+
+              <Link href={`/${post.username}/${post.slug}`}>
+                <Button
+                  sx={{
+                    textTransform: "unset",
+                    padding: "0 1rem",
+                    height: "32px",
+                    borderRadius: "100px",
+                    fontWeight: "400",
+                    width: "fit-content",
+                  }}
+                  startIcon={<Box>🌐</Box>}
+                  variant="text"
+                >
+                  Live view
+                </Button>
+              </Link>
+            </Stack>
+
             <ImageUploader />
 
+            <Box mt={4} />
             <PostForm
               postRef={postRef}
               defaultValues={post}
               preview={preview}
             />
-          </section>
-
-          <aside>
-            <h3>Tools</h3>
-
-            <button onClick={() => setPreview(!preview)}>
-              {preview ? "Edit" : "Preview"}
-            </button>
-
-            <Link href={`/${post.username}/${post.slug}`}>
-              <button>Live view</button>
-            </Link>
-          </aside>
-        </>
-      )}
+          </Box>
+        )}
+      </Stack>
     </Box>
   );
 }
@@ -96,7 +139,7 @@ function PostForm({ defaultValues, preview, postRef }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(updatePost)}>
+    <Box component="form" onSubmit={handleSubmit(updatePost)}>
       {preview && (
         <div>
           <ReactMarkdown>{watch("content")}</ReactMarkdown>
@@ -104,28 +147,42 @@ function PostForm({ defaultValues, preview, postRef }) {
       )}
 
       {!preview && (
-        <div>
-          <textarea
+        <Box>
+          <TextareaAutosize
+            style={{
+              width: "100%",
+              height: "300px",
+              resize: "none",
+              padding: "1rem",
+              fontSize: "1rem",
+              fontFamily: "Syne",
+            }}
             name="content"
             {...register("content", {
               maxLength: { value: 20000, message: "content is too long" },
               minLength: { value: 10, message: "content is too short" },
               required: true,
             })}
-          ></textarea>
+          />
           {errors.content && <p>{errors.content?.message.toString()}</p>}
 
-          <fieldset>
-            <input type="checkbox" {...register("published")} />
+          <Stack my={4} direction="row" alignItems="center" spacing={1}>
+            <CheckBox {...register("published")} />
             <label>Published</label>
-          </fieldset>
+          </Stack>
 
-          <button type="submit" disabled={!isDirty || !isValid}>
+          <Button
+            type="submit"
+            disabled={!isDirty || !isValid}
+            variant="contained"
+            disableElevation
+            sx={containedBtnStyle}
+          >
             Save Changes
-          </button>
-        </div>
+          </Button>
+        </Box>
       )}
-    </form>
+    </Box>
   );
 }
 

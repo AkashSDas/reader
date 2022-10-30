@@ -3,7 +3,7 @@ import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import PostFeed from "@components/post-feed";
 import UserProfile from "@components/user-profile";
 import { firestore, getUserWithUsername, postToJSON } from "@lib/firebase";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 export async function getServerSideProps({ query: q }) {
   var { username } = q;
@@ -36,9 +36,24 @@ export async function getServerSideProps({ query: q }) {
 
 function UserPublicProfilePage({ user, posts }) {
   return (
-    <Box>
-      <UserProfile user={user} />
-      <PostFeed posts={posts} admin={false} />
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        px: 2,
+        mt: 2,
+      }}
+    >
+      <Stack
+        spacing={2}
+        direction="column"
+        alignItems="center"
+        sx={{ maxWidth: "700px", width: "100%" }}
+      >
+        <UserProfile user={user} />
+        <PostFeed posts={posts} admin={false} />
+      </Stack>
     </Box>
   );
 }

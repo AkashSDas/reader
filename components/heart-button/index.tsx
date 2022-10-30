@@ -2,6 +2,8 @@ import { collection, doc, increment, writeBatch } from "firebase/firestore";
 import { useDocument } from "react-firebase-hooks/firestore";
 
 import { auth, firestore } from "@lib/firebase";
+import { containedBtnStyle } from "@lib/material-ui";
+import { Button } from "@mui/material";
 
 function HeartButton({ postRef }) {
   var heartRef = doc(firestore, postRef.path, "hearts", auth.currentUser.uid);
@@ -25,9 +27,13 @@ function HeartButton({ postRef }) {
   }
 
   return heartDoc?.exists() ? (
-    <button onClick={removeHeart}>💔 Unheart</button>
+    <Button sx={containedBtnStyle} onClick={removeHeart} variant="outlined">
+      💔 Unheart
+    </Button>
   ) : (
-    <button onClick={addHeart}>💗 Heart</button>
+    <Button sx={containedBtnStyle} onClick={addHeart} variant="outlined">
+      💗 Heart
+    </Button>
   );
 }
 

@@ -1,5 +1,8 @@
+import moment from "moment";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+
+import { Box, Typography } from "@mui/material";
 
 function PostContent({ post }) {
   var createdAt =
@@ -8,19 +11,21 @@ function PostContent({ post }) {
       : post.createdAt.toDate();
 
   return (
-    <div>
-      <h1>{post?.title}</h1>
+    <Box sx={{ width: "100%" }}>
+      <Typography variant="h5" sx={{ fontWeight: 700 }}>
+        {post?.title}
+      </Typography>
 
-      <span>
+      <Typography variant="body2" sx={{ mb: 4 }}>
         Written by{" "}
         <Link href={`/${post.username}`}>
           <a>@{post.username}</a>
         </Link>{" "}
-        on {createdAt.toISOString()}
-      </span>
+        {moment(createdAt.toISOString()).fromNow()}
+      </Typography>
 
       <ReactMarkdown>{post?.content}</ReactMarkdown>
-    </div>
+    </Box>
   );
 }
 
