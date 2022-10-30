@@ -50,8 +50,12 @@ function PostItem({ post, admin }) {
 
         <Link href={`/${post.username}/${post.slug}`}>
           <Typography
-            variant="h4"
-            sx={{ cursor: "pointer", fontWeight: 700, width: "fit-content" }}
+            sx={{
+              typography: { xs: "h5", md: "h4" },
+              cursor: "pointer",
+              fontWeight: { xs: 700, md: 700 },
+              width: "fit-content",
+            }}
           >
             {post.title}
           </Typography>

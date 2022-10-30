@@ -8,15 +8,31 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import AuthCheck from "@components/auth-check";
 import PostFeed from "@components/post-feed";
 import { UserContext } from "@lib/context";
-import { auth, firestore } from "@lib/firebase";
-import { Box } from "@mui/material";
+import { auth, firestore, postToJSON } from "@lib/firebase";
+import { containedBtnStyle } from "@lib/material-ui";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 
 function AdminPostsPage() {
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        px: 2,
+        mt: 2,
+      }}
+    >
       <AuthCheck>
-        <PostList />
-        <CreateNewPost />
+        <Stack
+          spacing={2}
+          direction="column"
+          alignItems="center"
+          sx={{ maxWidth: "700px", width: "100%" }}
+        >
+          <PostList />
+          <CreateNewPost />
+        </Stack>
       </AuthCheck>
     </Box>
   );
@@ -26,7 +42,7 @@ function PostList() {
   var ref = collection(firestore, "users", auth.currentUser.uid, "posts");
   var q = query(ref, orderBy("createdAt", "desc"));
   var [querySnapshot] = useCollection(q);
-  var posts = querySnapshot?.docs.map((doc) => doc.data());
+  var posts = querySnapshot?.docs.map(postToJSON);
 
   return (
     <>
@@ -65,6 +81,7 @@ function CreateNewPost() {
       updatedAt: serverTimestamp(),
       heartCount: 0,
     };
+    console.log(serverTimestamp());
 
     await setDoc(ref, data);
     enqueueSnackbar("Post created!", { variant: "success" });
@@ -72,21 +89,40 @@ function CreateNewPost() {
   }
 
   return (
-    <form onSubmit={createPost}>
-      <input
+    <Box
+      component="form"
+      onSubmit={createPost}
+      style={{ width: "100%", marginTop: "2rem" }}
+    >
+      <TextField
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
+        label="Post Title"
         placeholder="My Awesome Article!"
+        fullWidth
+        variant="standard"
+        inputProps={{ style: { fontWeight: 700, fontSize: "24px" } }}
+        InputLabelProps={{
+          style: { fontWeight: 500, fontSize: "18px" },
+          shrink: true,
+        }}
       />
-      <p>
-        <strong>Slug: </strong> {slug}
-      </p>
 
-      <button type="submit" disabled={!isValid}>
+      <Stack direction="row" spacing={1} sx={{ my: 2 }}>
+        <Typography fontWeight={700}>Slug: </Typography>{" "}
+        <Typography>{slug}</Typography>
+      </Stack>
+
+      <Button
+        type="submit"
+        disabled={!isValid}
+        variant="contained"
+        sx={containedBtnStyle}
+      >
         Create New Post
-      </button>
-    </form>
+      </Button>
+    </Box>
   );
 }
 
