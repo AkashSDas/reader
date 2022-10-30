@@ -4,6 +4,8 @@ import { useState } from "react";
 import Loader from "@components/loader";
 import PostFeed from "@components/post-feed";
 import { firestore, postToJSON } from "@lib/firebase";
+import { containedBtnStyle } from "@lib/material-ui";
+import { Box, Button, Stack } from "@mui/material";
 
 // Max post to query per page
 const LIMIT = 1;
@@ -57,17 +59,39 @@ function IndexPage(props) {
   }
 
   return (
-    <div>
-      <PostFeed posts={posts} admin={false} />
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        px: 2,
+        mt: 2,
+      }}
+    >
+      <Stack
+        spacing={2}
+        direction="column"
+        alignItems="center"
+        sx={{ maxWidth: "700px", width: "100%" }}
+      >
+        <PostFeed posts={posts} admin={false} />
 
-      {!loading && !postsEnd && (
-        <button onClick={getMorePosts}>Load more</button>
-      )}
+        {!loading && !postsEnd && (
+          <Button
+            sx={containedBtnStyle}
+            variant="contained"
+            disableElevation
+            onClick={getMorePosts}
+          >
+            Load more
+          </Button>
+        )}
 
-      {loading && <Loader />}
+        {loading && <Loader />}
 
-      {postsEnd && "You have reached the end!"}
-    </div>
+        {postsEnd && <Box>😢 You have reached the end!</Box>}
+      </Stack>
+    </Box>
   );
 }
 

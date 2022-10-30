@@ -46,12 +46,11 @@ function Navbar() {
   var theme = useTheme();
 
   return (
-    <Box sx={{ height: "60px", width: "100%" }}>
+    <Box sx={{ height: "60px", width: "100%" }} px={{ xs: 2, sm: 4 }}>
       <AppBar
         position="sticky"
         sx={{
           bgcolor: theme.palette.background.default,
-          padding: "0 2rem",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
