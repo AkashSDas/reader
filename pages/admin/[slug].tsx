@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import ReactMarkdown from "react-markdown";
 
 import AuthCheck from "@components/auth-check";
+import ImageUploader from "@components/image-uploader";
 import { auth, firestore } from "@lib/firebase";
 import { Box } from "@mui/material";
 
@@ -38,12 +39,12 @@ function PostManager() {
   return (
     <Box>
       <h1>Post</h1>
-
       {post && (
         <>
           <section>
             <h1>{post.title}</h1>
             <p>{post.slug}</p>
+            <ImageUploader />
 
             <PostForm
               postRef={postRef}

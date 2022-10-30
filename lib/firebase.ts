@@ -27,6 +27,7 @@ export var googleAuthProvider = new GoogleAuthProvider();
 // Firestore
 export var firestore = getFirestore(firebaseApp);
 
+// Storage
 export var storage = getStorage(firebaseApp);
 
 // ============================
