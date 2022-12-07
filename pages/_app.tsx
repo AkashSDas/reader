@@ -1,7 +1,14 @@
 import "../styles/globals.css";
 
-import type { AppProps } from "next/app";
+import { ThemeProvider } from "@emotion/react";
 
+import { materialUiTheme } from "../lib/material-ui";
+
+import type { AppProps } from "next/app";
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <ThemeProvider theme={materialUiTheme}>
+      <Component {...pageProps} />
+    </ThemeProvider>
+  );
 }
