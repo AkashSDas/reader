@@ -1,15 +1,15 @@
 import { createTheme, Palette, PaletteColor, TypeBackground, TypeText } from "@mui/material";
 
 var palette: Partial<Palette> = {
-  primary: { main: "#2F2F3F" } as PaletteColor,
-  background: { default: "#fff" } as TypeBackground,
-  text: { primary: "#2F2F3F", secondary: "#6C6C6C" } as TypeText,
-  divider: "#E8E8E8",
+  primary: { main: "#28271F" } as PaletteColor,
+  background: { default: "#FCFCFC" } as TypeBackground,
+  text: { primary: "#28271F", secondary: "#575757" } as TypeText,
+  divider: "#F1F1F1",
 };
 
 export var materialUiTheme = createTheme({
   palette,
   typography: {
-    fontFamily: "Syne",
+    fontFamily: "Urbanist",
   },
 });
